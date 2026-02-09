@@ -1,29 +1,45 @@
 
-alert("BIENVENIDO AL SIMULADOR")
+//alert("BIENVENIDO AL SIMULADOR")
 
-const Marca_Parlantes = ["JBL, Sony, RCF, Dynaudio, KEF, Ultimate Ears, Genius, SVS, Genelec"]
+const Marcas_Parlantes = ["JBL, Sony, RCF, Dynaudio, KEF, Ultimate Ears, Genius, SVS, Genelec"]
 
 const productos = [
-    { nombre: "JBL", precio: 21000 },
-    { nombre: "Sony", precio: 18000 },
-    { nombre: "RCF", precio: 12000 },
-    { nombre: "Dynaudio", precio: 7000},
-    { nombre: "KEF", precio: 13000},
-    { nombre : "Ultimate Ears", precio: 15000},
-    { nombre : "Genius", precio: 16000},
-    { nombre : "SVS", precio: 11000},
-    { nombre : "Genelec", precio: 18000},
+    { producto: "JBL", precio: 21000 },
+    { producto: "Sony", precio: 18000 },
+    { producto: "RCF", precio: 12000 },
+    { producto: "Dynaudio", precio: 7000},
+    { producto: "KEF", precio: 13000},
+    { producto : "Ultimate Ears", precio: 15000},
+    { producto : "Genius", precio: 16000},
+    { producto : "SVS", precio: 11000},
+    { producto : "Genelec", precio: 18000},
 ];
+let carrito = []
+let total = 0
 
-function Pedirusuario(){
-    let nombre = prompt("Bienvenido/a al simulador, por favor ingrese su nombre de usuario: ")
-    return nombre
+function pedirUsuario() {
+    let nombre = prompt("Ingrese su nombre de usuario");
+    alert("Bienvenido " + nombre + " al simulador de compra de parlantes");
+    return nombre;
 }
-Pedirusuario()
+pedirUsuario()
 
-function muestra_parlantes(){
+function marcas_parlantes(){
     console.log("Bienvenido a nuestra tienda, estos son todos los productos que tenemos disponibles para vos")
-    console.log(Marca_Parlantes)
+    console.log(Marcas_Parlantes)
 }
-muestra_parlantes()
+marcas_parlantes()
+
+function mostrar_productos(){
+    for(producto of productos){
+        console.log(producto)
+    }   
+}
+mostrar_productos()
+
+
+
+
+
+
 
