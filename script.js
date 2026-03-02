@@ -1,7 +1,16 @@
 alert("BIENVENIDO AL SIMULADOR");
 
-const Marcas_Parlantes = ["JBL", "Sony", "RCF", "Dynaudio", "KEF", "Ultimate Ears", "Genius", "SVS", "Genelec"];
-const precios = [21000, 18000, 12000, 7000, 13000, 15000, 16000, 11000, 18000];
+const Marcas_Parlantes = [
+    {Marca: "JBL", precio: 21000},
+    {Marca: "Sony", precio: 18000},
+    {Marca: "RCF", precio: 12000},
+    {Marca: "Dynaudio", precio: 7000},
+    {Marca: "KEF", precio: 13000},
+    {Marca: "Ultimate Ears", precio: 15000},
+    {Marca: "Genius", precio: 16000},
+    {Marca: "SVS", precio: 11000},
+    {Marca: "Genelec", precio: 18000},
+]
 
 let total = 0;
 
