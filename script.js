@@ -35,7 +35,7 @@ function mostrar_productos() {
         console.log(producto + " - $" + precios[posicion]);
     }
 }
-mostrar_productos();
+//mostrar_productos();
 
 
 function simuladorCompras() {
@@ -70,4 +70,4 @@ function simuladorCompras() {
     }
     alert("Gracias por su compra\nTotal a pagar: $" + total);
 }
-simuladorCompras();
+//simuladorCompras();
