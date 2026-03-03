@@ -8,16 +8,21 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div>
-        <h1>Simulador de compra para Parlantes</h1>
+    <h1>Simulador de compra para Parlantes</h1>
         <p>Este proyecto es un simulador de compra de parlantes realizado con JavaScript, donde el usuario puede ingresar su nombre y elegir los productos que desea comprar</p>
         <h2>Marcas de parlantes</h2>    
         <p>Estas son las diversas marcas de parlantes que puede comprar</p>
         <p>"JBL", "Sony", "RCF", "Dynaudio", "KEF", "Ultimate Ears", "Genius", "SVS", "Genelec"</p>
-    </div>
-    <input type = "text" id = "input">
-    <button id = "minus-button">-</button>
-    <span id = "counter">0</span>
-    <button id = "plus-button">+</button>
+        <section id="productos"></section>
+        <section id ="carrito">
+            <h2>Carrito</h2>
+            <div id ="contenedor del carrito"></div>
+            <h3>Total : $<span id ="total">0</span></h3>
+            <button id ="vaciar carrito"> vaciar carrito</button>
+        </section>
+    <!input type = "text" id = "input">
+    <!button id = "minus-button">-</button>
+    <!span id = "counter">0</span>
+    <!button id = "plus-button">+</button>
 </body>
 </html>

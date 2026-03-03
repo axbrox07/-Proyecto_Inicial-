@@ -10,12 +10,11 @@ const productos = [
     { id: 9, marca: "Genelec", precio: 18000 }
 ]
 
-let carta_productos = []
-
-let input = document.getElementById("input")
-
-
-let productsContainer = document.getElementById("products-container")
+let carta_productos = JSON.parse(localStorage.getItem("carta_productos")) || []
+const productsContainer = document.getElementById("productos")
+const carritoContainer = document.getElementById("carrito-container")
+const totalSpan = document.getElementById("total")
+const vaciarBtn = document.getElementById("vaciar-carrito")
 
 function renderProductos(productsArray) {
     productsArray.forEach(producto => {
