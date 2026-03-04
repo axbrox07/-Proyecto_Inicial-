@@ -1,3 +1,9 @@
+* {
+    margin: 5;
+    padding: 10;
+    box-sizing: border-box;
+}
+
 h1{
     background-color: grey;
     font-size: 40px;
@@ -5,5 +11,60 @@ h1{
     text-transform: uppercase;
     font-family: sans-serif;
     text-align: center;
-    padding: 30px;
+    padding: 40px;
 }
+
+body{
+    background-color: floralwhite;
+    margin: 40px;
+    padding: 10px;
+}
+
+.contenedor {
+    display: inline;
+    grid-template-columns: none;
+    max-width: 200px;
+}
+
+.carrito h2 {
+    margin-bottom: 25px;
+    font-size: 22px;
+    color: darkolivegreen;
+    
+}
+
+.productos button {
+    margin-top: 0px;
+    padding: 0px 45px;
+    border: darkolivegreen;
+    color: white;
+    border-radius: 5px;
+}
+.carrito button {
+    border: none;
+    padding: 5px 12px;
+    margin: 0 5px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    background: #f0f0f0;
+    transition: background 0.2s ease;
+}
+.productoAgregar:hover {
+    background: #cfee5f;
+    color:black;
+}
+.carrito span {
+    font-weight: bold;
+    margin: 0 8px;
+}
+#total {
+    font-weight: bold;
+    font-size: 20px;
+    color: green;
+}
+
+
+
+
+
