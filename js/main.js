@@ -1,8 +1,6 @@
-let productos = []
-
 async function cargarProductos(){
     try{
-        const response = await fetch("../productos.json")
+        const response = await fetch("db/data.json")
         if(!response.ok){
             throw new Error("Error al cargar el Json")
             

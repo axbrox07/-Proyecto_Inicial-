@@ -1,14 +1,5 @@
-const productos = [
-    { id: 1, marca: "JBL", precio: 21000 },
-    { id: 2, marca: "Sony", precio: 18000 },
-    { id: 3, marca: "RCF", precio: 12000 },
-    { id: 4, marca: "Dynaudio", precio: 7000 },
-    { id: 5, marca: "KEF", precio: 13000 },
-    { id: 6, marca: "Ultimate Ears", precio: 15000 },
-    { id: 7, marca: "Genius", precio: 16000 },
-    { id: 8, marca: "SVS", precio: 11000 },
-    { id: 9, marca: "Genelec", precio: 18000 }
-]
+let productos = []
+console.log(productos)
 let carta_productos = JSON.parse(localStorage.getItem("carta_productos")) || []
 const productsContainer = document.getElementById("productos")
 const carritoContainer = document.getElementById("carrito-container")
