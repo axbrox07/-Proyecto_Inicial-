@@ -9,7 +9,6 @@ const productos = [
     { id: 8, marca: "SVS", precio: 11000 },
     { id: 9, marca: "Genelec", precio: 18000 }
 ]
-
 let carta_productos = JSON.parse(localStorage.getItem("carta_productos")) || []
 const productsContainer = document.getElementById("productos")
 const carritoContainer = document.getElementById("carrito-container")
