@@ -17,4 +17,3 @@ async function cargarProductos(){
 }
 cargarProductos()
 
-Swal.fire("SweetAlert2 is working!");

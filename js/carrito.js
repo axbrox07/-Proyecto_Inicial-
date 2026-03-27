@@ -181,7 +181,6 @@ finalizarBtn.addEventListener("click", () => {
         const DNI = document.getElementById("dni").value
         const email = document.getElementById("email").value
         const tarjeta = document.getElementById("tarjeta").value
-        
         if (!nombre || !apellido || !DNI || !email || !tarjeta){
             Swal.showValidationMessage("completa todos los campos")
             return false
@@ -190,7 +189,11 @@ finalizarBtn.addEventListener("click", () => {
     }
 }).then((result) =>{
     if(result.isConfirmed){
-        Swal.fire(`Compra realizada. Gracias por confiera en nosotos ${result.value.nombre}`)
+        Swal.fire({
+            title: "compra realizada",
+            icon: "success",
+            text: `Gracias por tu compra, ${result.value.nombre}`,
+        })
         carta_productos = []
         actualizarStorage()
         renderCarrito()
