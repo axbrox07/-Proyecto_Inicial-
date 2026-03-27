@@ -4,7 +4,6 @@ let carta_productos = JSON.parse(localStorage.getItem("carta_productos")) || []
 const productsContainer = document.getElementById("productos")
 const carritoContainer = document.getElementById("carrito-container")
 const totalSpan = document.getElementById("total")
-const vaciarBtn = document.getElementById("vaciar-carrito")
 
 function renderProductos(array) {
     productsContainer.innerHTML =""
@@ -43,7 +42,7 @@ function agregarEventosAgregar() {
             
             const productoseleccionado = productos.find(prod => prod.id ===id)
             Toastify({
-                text: `${productoseleccionado.marca} agragado al carrito`,
+                text: `Parlante ${productoseleccionado.marca} agragado al carrito`,
                 duration: 2000,
                 gravity: "top",
                 position: "right",
@@ -151,6 +150,8 @@ function actualizarTotal() {
     console.log("total: ",total)
     totalSpan.textContent = total
 }
+const vaciarBtn = document.getElementById("vaciar-carrito")
+const finalizarBtn = document.getElementById("finalizar-compra")
 
 vaciarBtn.addEventListener("click", () => {
     carta_productos = []
@@ -158,6 +159,44 @@ vaciarBtn.addEventListener("click", () => {
     renderCarrito()
 })
 
+finalizarBtn.addEventListener("click", () => {
+    const cantidadTotal = carta_productos.reduce((acc, prod) => acc + prod.cantidad, 0)
+    if(cantidadTotal === 0){
+        Swal.fire("el carrito esta vacio")
+        return
+    }
+    Swal.fire ({
+    title: "datos de compra",
+    html: `
+    <input id = "nombre" class = "swal2-input"placeholder = "nombre">
+    <input id = "apellido" class = "swal2-input"placeholder = "apellido">
+    <input id = "dni" class = "swal2-input"placeholder = "dni">
+    <input id = "email" class = "swal2-input"placeholder = "email">
+    <input id = "tarjeta" class = "swal2-input"placeholder = "tarjeta">
+    `,
+    confirmButtonText: "Comprar",
+    preConfirm: () => {
+        const nombre = document.getElementById("nombre").value
+        const apellido = document.getElementById("apellido").value
+        const DNI = document.getElementById("dni").value
+        const email = document.getElementById("email").value
+        const tarjeta = document.getElementById("tarjeta").value
+        
+        if (!nombre || !apellido || !DNI || !email || !tarjeta){
+            Swal.showValidationMessage("completa todos los campos")
+            return false
+        }
+        return {nombre}
+    }
+}).then((result) =>{
+    if(result.isConfirmed){
+        Swal.fire(`Compra realizada. Gracias por confiera en nosotos ${result.value.nombre}`)
+        carta_productos = []
+        actualizarStorage()
+        renderCarrito()
+        }
+    })
+})
 function actualizarStorage() {
     localStorage.setItem("carta_productos", JSON.stringify(carta_productos))
 }
