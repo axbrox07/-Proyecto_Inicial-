@@ -1,62 +1,91 @@
 * {
-    margin: 5;
-    padding: 10;
+    margin: 10px;
+    padding: 0px;
     box-sizing: border-box;
-}
-
-h1{
-    background-color: grey;
-    font-size: 40px;
-    color: white;
-    text-transform: uppercase;
-    font-family: sans-serif;
-    text-align: center;
-    padding: 40px;
 }
 
 body{
     background-color: floralwhite;
-    margin: 40px;
-    padding: 10px;
+    font-family: sans-serif;
+    padding: 20px;
+}
+
+h1 {
+    background-color: green;
+    color: white;
+    text-align: center;
+    padding: 30px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
 }
 
 .contenedor {
-    display: inline;
-    grid-template-columns: none;
-    max-width: 200px;
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    gap: 30px;
+}
+#productos{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
 }
 
-.carrito h2 {
-    margin-bottom: 25px;
-    font-size: 22px;
-    color: darkolivegreen;
-    
+.producto{
+    background-color: rgba(159, 240, 106, 0.447);
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.423);
 }
 
-.productos button {
+.producto h3{
+    margin-bottom: 10px;
+}
+
+.producto p{
+    font-size: 18px;
+    color: green;
+    margin-bottom: 10px;
+}
+
+.producto button {
+    background-color: rgb(77, 158, 45);
     margin-top: 0px;
-    padding: 0px 45px;
+    padding: 10px;
     border: darkolivegreen;
     color: white;
-    border-radius: 5px;
+    cursor: pointer;
+    border: none;
+    font-family: sans-serif;
+    border-radius: 6px;
+}
+
+.productoAgregar:hover {
+    background: #0ac526d0;
+    color:rgb(0, 0, 0);
+    transform: scale(1.05);
+}
+
+#carrito-container div{
+    border-bottom: 1px solid #ccc;
+    padding: 10px 0;
 }
 .carrito button {
     border: none;
     padding: 5px 12px;
-    margin: 0 5px;
+    margin: 5px;
     border-radius: 8px;
     cursor: pointer;
     font-weight: bold;
     background: #f0f0f0;
     transition: background 0.2s ease;
 }
-.productoAgregar:hover {
-    background: #cfee5f;
-    color:black;
-}
-.carrito span {
-    font-weight: bold;
-    margin: 0 8px;
+
+.carrito {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0px 4px 12px rgba(0,0,0,0.1);
 }
 #total {
     font-weight: bold;

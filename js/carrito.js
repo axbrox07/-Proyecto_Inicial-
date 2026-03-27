@@ -13,7 +13,7 @@ function renderProductos(array) {
         card.classList.add("producto")
         card.innerHTML = `
             <h3>${producto.marca}</h3>
-            <p>$${producto.precio}</p>
+            <p>$${producto.precio.toLocaleString()}</p>
             <button class="productoAgregar" id="${producto.id}">Agregar al carrito</button>`
         productsContainer.appendChild(card)
     })
