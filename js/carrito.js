@@ -10,10 +10,11 @@ function renderProductos(array) {
     productsContainer.innerHTML =""
     array.forEach(producto => {
         const card = document.createElement("div")
+        card.classList.add("producto")
         card.innerHTML = `
             <h3>${producto.marca}</h3>
-            <h4>$${producto.precio}</h4>
-            <button class="productoAgregar" id="${producto.id}">Agregar</button>`
+            <p>$${producto.precio}</p>
+            <button class="productoAgregar" id="${producto.id}">Agregar al carrito</button>`
         productsContainer.appendChild(card)
     })
     agregarEventosAgregar()
