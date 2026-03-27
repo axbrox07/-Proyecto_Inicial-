@@ -40,6 +40,17 @@ function agregarEventosAgregar() {
             }
             actualizarStorage()
             renderCarrito()
+            
+            const productoseleccionado = productos.find(prod => prod.id ===id)
+            Toastify({
+                text: `${productoseleccionado.marca} agragado al carrito`,
+                duration: 2000,
+                gravity: "top",
+                position: "right",
+                style:{
+                background: "linear-gradient(to right, #38bd0c, #4a9f1c)",
+                }
+            }).showToast()
         })
     })
 }
