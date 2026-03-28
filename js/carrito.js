@@ -11,14 +11,15 @@ function renderProductos(array) {
         const card = document.createElement("div")
         card.classList.add("producto")
         card.innerHTML = `
+            <img src="${producto.imagen}" class="producto-img"></img>
             <h3>${producto.marca}</h3>
             <p>$${producto.precio.toLocaleString()}</p>
             <button class="productoAgregar" id="${producto.id}">Agregar al carrito</button>`
         productsContainer.appendChild(card)
+        console.log(producto.imagen)
     })
     agregarEventosAgregar()
 }
-
 
 function agregarEventosAgregar() {
     const botones = document.querySelectorAll(".productoAgregar")

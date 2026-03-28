@@ -3,18 +3,18 @@
     "id":1,
     "marca": "JBL",
     "precio": 21000,
-    "imagen": "img/jbl.png"    
+    "imagen": "img/jbl.webp"    
     },
     {
     "id":2,
     "marca": "Sony",
     "precio": 18000,
-    "imagen": "img/sony.png"
+    "imagen": "img/sony.jpg"
     },{
     "id":3,
     "marca": "RCF",
     "precio": 12000,
-    "imagen": "img/rcf.png"    
+    "imagen": "img/rcf.jpg"    
     },{
     "id":4,
     "marca": "Dynaudio",
@@ -24,28 +24,27 @@
     "id":5,
     "marca": "KEF",
     "precio": 13000,
-    "imagen": "img/kef.png"
+    "imagen": "img/kef.jpg"
     },{
     "id":6,
     "marca": "Ultimate Ears",
     "precio": 15000,
-    "imagen": "img/ultimate_ears.png"
+    "imagen": "img/ultimate_ears.jpg"
     },
     {
     "id":7,
     "marca": "Genius",
     "precio": 16000,
-    "imagen": "img/genius.png"
+    "imagen": "img/genius.jpeg"
     },{
     "id":8,
     "marca": "SVS",
     "precio": 11000,
-    "imagen": "img/svs.png"
+    "imagen": "img/svs.webp"
     },{
     "id":9,
     "marca": "Genelec",
     "precio": 18000,
-    "imagen": "img/genelec.png"
+    "imagen": "img/genelec.webp"
     }
 ]
-

@@ -31,11 +31,37 @@ h1 {
 }
 
 .producto{
+    height: 300px;;
     background-color: rgba(159, 240, 106, 0.447);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     padding: 20px;
     border-radius: 12px;
     text-align: center;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.423);
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+    position: relative;
+}
+
+.producto-img {
+    width: 100%;
+    height: 120px;
+    object-fit: contain;
+}
+
+.productos * {
+    position: relative;
+    z-index: 2;
+}
+
+.productos::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    border-radius: 10px;
 }
 
 .producto h3{
