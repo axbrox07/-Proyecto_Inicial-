@@ -11,9 +11,9 @@ function renderCarrito() {
         div.innerHTML = `
             <h4>${producto.marca}</h4>
             <p>Precio: $${producto.precio}</p>
-            <button class="restar" data-id="${producto.id}">-</button>
+            <button class="restar" id="restar-${producto.id}">-</button>
             <span>${producto.cantidad}</span>
-            <button class="sumar" data-id="${producto.id}">+</button>
+            <button class="sumar" id="sumar-${producto.id}">+</button>
             <p>Subtotal: $${producto.precio * producto.cantidad}</p>
             <hr>`
         carritoContainer.appendChild(div)
@@ -27,7 +27,7 @@ function agregarEventosCantidad() {
     const botonesRestar = document.querySelectorAll(".restar")
     botonesSumar.forEach(btn => {
         btn.addEventListener("click", (e) => {
-            const id = parseInt(e.currentTarget.dataset.id)
+            const id = parseInt(e.currentTarget.id.replace("sumar-", ""))
             const producto = carritoProductos.find(prod => prod.id === id)
             producto.cantidad++
             actualizarStorage()
@@ -36,7 +36,7 @@ function agregarEventosCantidad() {
     })
     botonesRestar.forEach(btn => {
         btn.addEventListener("click", (e) => {
-        const id = parseInt(e.currentTarget.dataset.id)
+            const id = parseInt(e.currentTarget.id.replace("restar-", ""))
             const producto = carritoProductos.find(prod => prod.id === id)
             producto.cantidad--
             if (producto.cantidad === 0) {
@@ -54,10 +54,6 @@ function actualizarTotal() {
     }, 0)
     console.log("total: ",total)
     totalSpan.textContent = total
-}
-
-function actualizarStorage(){
-    localStorage.setItem("carritoProductos", JSON.stringify(carritoProductos))
 }
 
 vaciarBtn.addEventListener("click", () => {
@@ -147,7 +143,6 @@ function mostrarFormularioCompra(){
 function actualizarStorage() {
     localStorage.setItem("carritoProductos", JSON.stringify(carritoProductos))
 }
-
 
 function mostrarResumenCompra(datosCliente){
     let detalleProductos =""
