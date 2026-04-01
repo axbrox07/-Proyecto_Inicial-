@@ -52,7 +52,6 @@ function actualizarTotal() {
     const total = carritoProductos.reduce((acc, producto) => {
         return acc + (producto.precio * producto.cantidad)
     }, 0)
-    console.log("total: ",total)
     totalSpan.textContent = total
 }
 
