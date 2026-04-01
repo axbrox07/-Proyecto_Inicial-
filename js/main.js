@@ -1,5 +1,5 @@
 let productos = []
-let cartaProductos = JSON.parse(localStorage.getItem("cartaproductos")) || []
+let carritoProductos = JSON.parse(localStorage.getItem("carritoProductos")) || []
 const productsContainer = document.getElementById("productos")
 
 async function cargarProductos(){
@@ -7,7 +7,6 @@ async function cargarProductos(){
         const response = await fetch("db/data.json")
         if(!response.ok){
             throw new Error("Error al cargar el Json")
-            
         }
         const data = await response.json()
         productos = data
@@ -41,15 +40,15 @@ function agregarEventosAgregar() {
     const botones = document.querySelectorAll(".productoAgregar")
     botones.forEach(btn => {
         btn.addEventListener("click", (e) => {
-            console.log("Carrito actual:", carta_productos)
+            console.log("Carrito actual:", carritoProductos)
             const id = parseInt(e.currentTarget.id)
-            const productoEnCarrito = cartaProductos.find(prod => prod.id === id)
+            const productoEnCarrito = carritoProductos.find(prod => prod.id === id)
             if (productoEnCarrito) {
                 productoEnCarrito.cantidad++
-                console.log("Carrito actual:", cartaProductos)
+                console.log("Carrito actual:", carritoProductos)
             } else {
                 const selectedProduct = productos.find(prod => prod.id === id)
-                cartaProductos.push({
+                carritoProductos.push({
                     ...selectedProduct,
                     cantidad: 1
                 })

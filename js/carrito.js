@@ -6,7 +6,7 @@ const finalizarBtn = document.getElementById("finalizar-compra")
 
 function renderCarrito() {
     carritoContainer.innerHTML = ""
-    cartaProductos.forEach(producto => {
+    carritoProductos.forEach(producto => {
         const div = document.createElement("div")
         div.innerHTML = `
             <h4>${producto.marca}</h4>
@@ -28,7 +28,7 @@ function agregarEventosCantidad() {
     botonesSumar.forEach(btn => {
         btn.addEventListener("click", (e) => {
             const id = parseInt(e.currentTarget.dataset.id)
-            const producto = cartaProductos.find(prod => prod.id === id)
+            const producto = carritoProductos.find(prod => prod.id === id)
             producto.cantidad++
             actualizarStorage()
             renderCarrito()
@@ -37,10 +37,10 @@ function agregarEventosCantidad() {
     botonesRestar.forEach(btn => {
         btn.addEventListener("click", (e) => {
         const id = parseInt(e.currentTarget.dataset.id)
-            const producto = cartaProductos.find(prod => prod.id === id)
+            const producto = carritoProductos.find(prod => prod.id === id)
             producto.cantidad--
             if (producto.cantidad === 0) {
-                cartaProductos = cartaProductos.filter(prod => prod.id !== id)
+                carritoProductos = carritoProductos.filter(prod => prod.id !== id)
             }
             actualizarStorage()
             renderCarrito()
@@ -49,7 +49,7 @@ function agregarEventosCantidad() {
 }
 
 function actualizarTotal() {
-    const total = cartaProductos.reduce((acc, producto) => {
+    const total = carritoProductos.reduce((acc, producto) => {
         return acc + (producto.precio * producto.cantidad)
     }, 0)
     console.log("total: ",total)
@@ -61,13 +61,13 @@ function actualizarStorage(){
 }
 
 vaciarBtn.addEventListener("click", () => {
-    cartaProductos = []
+    carritoProductos = []
     actualizarStorage()
     renderCarrito()
 })
 
 finalizarBtn.addEventListener("click", () => {
-    const cantidadTotal = cartaProductos.reduce((acc, prod) => acc + prod.cantidad, 0)
+    const cantidadTotal = carritoProductos.reduce((acc, prod) => acc + prod.cantidad, 0)
     if(cantidadTotal === 0){
         Swal.fire({
             title: "Carrito vacio",
@@ -102,13 +102,25 @@ function mostrarFormularioCompra(){
             Swal.showValidationMessage("completa todos los campos")
             return false
         }
-        if (!isNaN(parseInt(nombre))){
-            Swal.showValidationMessage("El nombre solo puede tener letras")
-            return false
+    let nombreTieneNumero = false
+    for (let caracter of nombre) {
+        if (!isNaN(parseInt(caracter))) {
+            nombreTieneNumero = true
         }
-        if (!isNaN(parseInt(apellido))){
-            Swal.showValidationMessage("El apellido solo puede tener letras")
-            return false
+    }
+        if (nombreTieneNumero) {
+    Swal.showValidationMessage("El nombre solo puede contener letras")
+    return false
+    }
+    let apellidoTieneNumero = false
+    for (let caracter of apellido) {
+        if (!isNaN(parseInt(caracter))) {
+        apellidoTieneNumero = true
+        }
+    }
+    if (apellidoTieneNumero) {
+        Swal.showValidationMessage("El apellido solo puede contener letras")
+        return false
         }
         const dniNumero = parseInt(DNI)
         if (dniNumero < 1000000 || dniNumero > 99999999){
@@ -133,9 +145,9 @@ function mostrarFormularioCompra(){
     })
 }
 function actualizarStorage() {
-    localStorage.setItem("cartaProductos", JSON.stringify(cartaProductos))
+    localStorage.setItem("carritoProductos", JSON.stringify(carritoProductos))
 }
-renderProductos(productos)
+
 
 function mostrarResumenCompra(datosCliente){
     let detalleProductos =""
@@ -149,7 +161,7 @@ function mostrarResumenCompra(datosCliente){
         <tr>`
     }
     let totalCompra = 0
-    for(let prod of cartaProductos){
+    for(let prod of carritoProductos){
         totalCompra +=  prod.precio * prod.cantidad
         }
     let tarjetaOculta = ""
@@ -168,7 +180,7 @@ function mostrarResumenCompra(datosCliente){
         html: `
             <h3>Resumen de compra</h3>
             <p><strong>Cliente:</strong> ${datosCliente.nombre} ${datosCliente.apellido}</p>
-            <p><strong>DNI:</strong> ${datosCliente.dni}</p>
+            <p><strong>DNI:</strong> ${datosCliente.DNI}</p>
             <p><strong>Email:</strong> ${datosCliente.email}</p>
             <p><strong>Tarjeta:</strong> ${tarjetaOculta}</p>
             <hr>
@@ -190,7 +202,7 @@ function mostrarResumenCompra(datosCliente){
         `,
         confirmButtonText: "Cerrar"
     })
-    cartaProductos = []
+    carritoProductos = []
     actualizarStorage()
     renderCarrito()
 }
