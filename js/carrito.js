@@ -1,59 +1,8 @@
-let productos = []
-console.log(productos)
-let carta_productos = JSON.parse(localStorage.getItem("carta_productos")) || []
-const productsContainer = document.getElementById("productos")
 const carritoContainer = document.getElementById("carrito-container")
 const totalSpan = document.getElementById("total")
+const vaciarBtn = document.getElementById("vaciar-carrito")
+const finalizarBtn = document.getElementById("finalizar-compra")
 
-function renderProductos(array) {
-    productsContainer.innerHTML =""
-    array.forEach(producto => {
-        const card = document.createElement("div")
-        card.classList.add("producto")
-        card.innerHTML = `
-            <img src="${producto.imagen}" class="producto-img"></img>
-            <h3>${producto.marca}</h3>
-            <p>$${producto.precio.toLocaleString()}</p>
-            <button class="productoAgregar" id="${producto.id}">Agregar al carrito</button>`
-        productsContainer.appendChild(card)
-        console.log(producto.imagen)
-    })
-    agregarEventosAgregar()
-}
-
-function agregarEventosAgregar() {
-    const botones = document.querySelectorAll(".productoAgregar")
-    botones.forEach(btn => {
-        btn.addEventListener("click", (e) => {
-            console.log("Carrito actual:", carta_productos)
-            const id = parseInt(e.currentTarget.id)
-            const productoEnCarrito = carta_productos.find(prod => prod.id === id)
-            if (productoEnCarrito) {
-                productoEnCarrito.cantidad++
-                console.log("Carrito actual:", carta_productos)
-            } else {
-                const selectedProduct = productos.find(prod => prod.id === id)
-                carta_productos.push({
-                    ...selectedProduct,
-                    cantidad: 1
-                })
-            }
-            actualizarStorage()
-            renderCarrito()
-            
-            const productoseleccionado = productos.find(prod => prod.id ===id)
-            Toastify({
-                text: `Parlante ${productoseleccionado.marca} agragado al carrito`,
-                duration: 2000,
-                gravity: "top",
-                position: "right",
-                style:{
-                background: "linear-gradient(to right, #38bd0c, #4a9f1c)",
-                }
-            }).showToast()
-        })
-    })
-}
 
 function renderCarrito() {
     carritoContainer.innerHTML = ""
@@ -99,51 +48,6 @@ function agregarEventosCantidad() {
     })
 }
 
-function renderCarrito() {
-    carritoContainer.innerHTML = ""
-    carta_productos.forEach(producto => {
-        const div = document.createElement("div")
-        div.innerHTML = `
-            <h4>${producto.marca}</h4>
-            <p>Precio: $${producto.precio}</p>
-            <button class="restar" data-id="${producto.id}">-</button>
-            <span>${producto.cantidad}</span>
-            <button class="sumar" data-id="${producto.id}">+</button>
-            <p>Subtotal: $${producto.precio * producto.cantidad}</p>
-            <hr>`
-        carritoContainer.appendChild(div)
-    })
-    agregarEventosCantidad()
-    actualizarTotal()
-}
-
-function agregarEventosCantidad() {
-    const botonesSumar = document.querySelectorAll(".sumar")
-    const botonesRestar = document.querySelectorAll(".restar")
-    botonesSumar.forEach(btn => {
-        btn.addEventListener("click", (e) => {
-            const id = parseInt(e.currentTarget.dataset.id)
-            const producto = carta_productos.find(prod => prod.id === id)
-            producto.cantidad++
-            actualizarStorage()
-            renderCarrito()
-        })
-    })
-    botonesRestar.forEach(btn => {
-        btn.addEventListener("click", (e) => {
-            const id = parseInt(e.currentTarget.dataset.id)
-            const producto = carta_productos.find(prod => prod.id === id)
-            producto.cantidad--
-            if (producto.cantidad === 0) {
-                carta_productos = carta_productos.filter(prod => prod.id !== id)
-            }
-            actualizarStorage()
-            renderCarrito()
-        })
-    })
-}
-
-
 function actualizarTotal() {
     const total = carta_productos.reduce((acc, producto) => {
         return acc + (producto.precio * producto.cantidad)
@@ -151,8 +55,10 @@ function actualizarTotal() {
     console.log("total: ",total)
     totalSpan.textContent = total
 }
-const vaciarBtn = document.getElementById("vaciar-carrito")
-const finalizarBtn = document.getElementById("finalizar-compra")
+
+function actualizarStorage(){
+    localStorage.setItem("carritoProductos", JSON.stringify(carritoProductos))
+}
 
 vaciarBtn.addEventListener("click", () => {
     carta_productos = []
@@ -163,19 +69,29 @@ vaciarBtn.addEventListener("click", () => {
 finalizarBtn.addEventListener("click", () => {
     const cantidadTotal = carta_productos.reduce((acc, prod) => acc + prod.cantidad, 0)
     if(cantidadTotal === 0){
-        Swal.fire("el carrito esta vacio")
+        Swal.fire({
+            title: "Carrito vacio",
+            text: "Agregar al menos 1 producto antes de finalizar la compra",
+            icon: "warning",
+        })
         return
     }
+    mostrarFormularioCompra()
+})
+
+function mostrarFormularioCompra(){
     Swal.fire ({
     title: "datos de compra",
     html: `
-    <input id = "nombre" class = "swal2-input"placeholder = "nombre">
-    <input id = "apellido" class = "swal2-input"placeholder = "apellido">
-    <input id = "dni" class = "swal2-input"placeholder = "dni">
-    <input id = "email" class = "swal2-input"placeholder = "email">
-    <input id = "tarjeta" class = "swal2-input"placeholder = "tarjeta">
+    <input id = "nombre" class = "swal2-input" type = "text" placeholder = "nombre">
+    <input id = "apellido" class = "swal2-input" type = "text" placeholder = "apellido">
+    <input id = "dni" class = "swal2-input" type = "number" placeholder = "dni">
+    <input id = "email" class = "swal2-input" type = "email" placeholder = "email">
+    <input id = "tarjeta" class = "swal2-input" type = "number" placeholder = "tarjeta">
     `,
     confirmButtonText: "Comprar",
+    showCancelButton : true,
+    cancelButtonText : "Cancelar",
     preConfirm: () => {
         const nombre = document.getElementById("nombre").value
         const apellido = document.getElementById("apellido").value
@@ -186,7 +102,29 @@ finalizarBtn.addEventListener("click", () => {
             Swal.showValidationMessage("completa todos los campos")
             return false
         }
-        return {nombre}
+        if (parseInt(nombre) >= 0 || parseInt(nombre) <0){
+            Swal.showValidationMessage("El nombre solo puede tener letras")
+            return false
+        }
+        if (parseInt(apellido) >= 0 || parseInt(apellido) < 0){
+            Swal.showValidationMessage("El apellido solo puede tener letras")
+            return false
+        }
+        const dniNumero = parseInt(DNI)
+        if (dniNumero < 1000000 || dniNumero > 99999999){
+            Swal.showValidationMessage("El DNI dene tener entre 7 y 8 digitos")
+            return false
+        }
+        if (!email.includes("@")){
+            Swal.showValidationMessage("Ingrese un email valido (ejemplo@gmail.com)")
+            return false
+        }
+        const tarjetaNum = parseInt(tarjeta)
+        if (tarjetaNum < 1000000000000000 || tarjetaNum > 9999999999999999){
+            Swal.showValidationMessage("La tarjeta debe tener 16 digitos")
+            return false
+        }
+        return {nombre, apellido, DNI, email, tarjeta}
     }
 }).then((result) =>{
     if(result.isConfirmed){
@@ -200,9 +138,8 @@ finalizarBtn.addEventListener("click", () => {
         renderCarrito()
         }
     })
-})
+}
 function actualizarStorage() {
     localStorage.setItem("carta_productos", JSON.stringify(carta_productos))
 }
 renderProductos(productos)
-renderCarrito()
