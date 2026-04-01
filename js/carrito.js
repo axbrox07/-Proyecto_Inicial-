@@ -6,7 +6,7 @@ const finalizarBtn = document.getElementById("finalizar-compra")
 
 function renderCarrito() {
     carritoContainer.innerHTML = ""
-    carta_productos.forEach(producto => {
+    cartaProductos.forEach(producto => {
         const div = document.createElement("div")
         div.innerHTML = `
             <h4>${producto.marca}</h4>
@@ -28,7 +28,7 @@ function agregarEventosCantidad() {
     botonesSumar.forEach(btn => {
         btn.addEventListener("click", (e) => {
             const id = parseInt(e.currentTarget.dataset.id)
-            const producto = carta_productos.find(prod => prod.id === id)
+            const producto = cartaProductos.find(prod => prod.id === id)
             producto.cantidad++
             actualizarStorage()
             renderCarrito()
@@ -37,10 +37,10 @@ function agregarEventosCantidad() {
     botonesRestar.forEach(btn => {
         btn.addEventListener("click", (e) => {
         const id = parseInt(e.currentTarget.dataset.id)
-            const producto = carta_productos.find(prod => prod.id === id)
+            const producto = cartaProductos.find(prod => prod.id === id)
             producto.cantidad--
             if (producto.cantidad === 0) {
-                carta_productos = carta_productos.filter(prod => prod.id !== id)
+                cartaProductos = cartaProductos.filter(prod => prod.id !== id)
             }
             actualizarStorage()
             renderCarrito()
@@ -49,7 +49,7 @@ function agregarEventosCantidad() {
 }
 
 function actualizarTotal() {
-    const total = carta_productos.reduce((acc, producto) => {
+    const total = cartaProductos.reduce((acc, producto) => {
         return acc + (producto.precio * producto.cantidad)
     }, 0)
     console.log("total: ",total)
@@ -61,13 +61,13 @@ function actualizarStorage(){
 }
 
 vaciarBtn.addEventListener("click", () => {
-    carta_productos = []
+    cartaProductos = []
     actualizarStorage()
     renderCarrito()
 })
 
 finalizarBtn.addEventListener("click", () => {
-    const cantidadTotal = carta_productos.reduce((acc, prod) => acc + prod.cantidad, 0)
+    const cantidadTotal = cartaProductos.reduce((acc, prod) => acc + prod.cantidad, 0)
     if(cantidadTotal === 0){
         Swal.fire({
             title: "Carrito vacio",
@@ -102,11 +102,11 @@ function mostrarFormularioCompra(){
             Swal.showValidationMessage("completa todos los campos")
             return false
         }
-        if (parseInt(nombre) >= 0 || parseInt(nombre) <0){
+        if (!isNaN(parseInt(nombre))){
             Swal.showValidationMessage("El nombre solo puede tener letras")
             return false
         }
-        if (parseInt(apellido) >= 0 || parseInt(apellido) < 0){
+        if (!isNaN(parseInt(apellido))){
             Swal.showValidationMessage("El apellido solo puede tener letras")
             return false
         }
@@ -128,18 +128,69 @@ function mostrarFormularioCompra(){
     }
 }).then((result) =>{
     if(result.isConfirmed){
-        Swal.fire({
-            title: "compra realizada",
-            icon: "success",
-            text: `Gracias por tu compra, ${result.value.nombre}`,
-        })
-        carta_productos = []
-        actualizarStorage()
-        renderCarrito()
+        mostrarResumenCompra(result.value)
         }
     })
 }
 function actualizarStorage() {
-    localStorage.setItem("carta_productos", JSON.stringify(carta_productos))
+    localStorage.setItem("cartaProductos", JSON.stringify(cartaProductos))
 }
 renderProductos(productos)
+
+function mostrarResumenCompra(datosCliente){
+    let detalleProductos =""
+    for(let prod of carritoProductos){
+        detalleProductos +=`
+        <tr>
+            <td style="padding:6px;">${prod.marca}</td>
+            <td style="padding:6px;">${prod.cantidad}</td>
+            <td style="padding:6px;">${prod.precio.toLocaleString()}</td>
+            <td style="padding:6px;">${(prod.precio * prod.cantidad).toLocaleString()}</td>
+        <tr>`
+    }
+    let totalCompra = 0
+    for(let prod of cartaProductos){
+        totalCompra +=  prod.precio * prod.cantidad
+        }
+    let tarjetaOculta = ""
+    let contador = 0
+    for (let digito of datosCliente.tarjeta){
+        if (contador < 12){
+            tarjetaOculta += "*"
+        }else{
+            tarjetaOculta += digito
+        }
+        contador++
+    }
+    Swal.fire({
+        title: "¡Compra realizada con éxito!",
+        icon: "success",
+        html: `
+            <h3>Resumen de compra</h3>
+            <p><strong>Cliente:</strong> ${datosCliente.nombre} ${datosCliente.apellido}</p>
+            <p><strong>DNI:</strong> ${datosCliente.dni}</p>
+            <p><strong>Email:</strong> ${datosCliente.email}</p>
+            <p><strong>Tarjeta:</strong> ${tarjetaOculta}</p>
+            <hr>
+            <table style="width:100%; border-collapse:collapse; margin-top:10px; font-size:14px;">
+                <thead>
+                    <tr style="background:#f0f0f0;">
+                        <th style="padding:6px;">Producto</th>
+                        <th style="padding:6px;">Cant.</th>
+                        <th style="padding:6px;">Precio unit.</th>
+                        <th style="padding:6px;">Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${detalleProductos}
+                </tbody>
+            </table>
+            <hr>
+            <h3>Total: $${totalCompra.toLocaleString()}</h3>
+        `,
+        confirmButtonText: "Cerrar"
+    })
+    cartaProductos = []
+    actualizarStorage()
+    renderCarrito()
+}
